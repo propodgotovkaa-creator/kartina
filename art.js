@@ -7,7 +7,7 @@ function sprite(ctx,name,x,y,w,h,angle=0,px=.5,py=.5,sx=1,sy=1){const [asset,a,b
 function backdrop(ctx,index){if(!paintAssets.scenes)return;ctx.drawImage(paintAssets.scenes,(index%2)*768,Math.floor(index/2)*512,768,512,0,0,720,430)}
 function mist(ctx,x,y,t,green=false){for(let i=0;i<4;i++){const f=(t/4+i*.25)%1;ctx.save();ctx.globalAlpha=Math.sin(f*Math.PI)*.22;const xx=x+Math.sin(f*5+i)*15,yy=y-f*80;const g=ctx.createRadialGradient(xx,yy,0,xx,yy,12+f*16);g.addColorStop(0,green?'#e7e6ab':'#eee5d0');g.addColorStop(1,'#e7e6ab00');ctx.fillStyle=g;ctx.beginPath();ctx.ellipse(xx,yy,12+f*16,10+f*11,0,0,Math.PI*2);ctx.fill();ctx.restore()}}
 function paintScene(canvas,time){const ctx=canvas.getContext('2d');const type=canvas.dataset.scene,live=canvas.classList.contains('live'),card=canvas.classList.contains('card-art');const t=live?time:0;ctx.setTransform(1.5,0,0,1.5,0,0);ctx.clearRect(0,0,720,430);ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
-if(card&&paintAssets.heroes){const col=type.startsWith('owl')?0:type.startsWith('witch')?1:2;ctx.drawImage(paintAssets.heroes,col*512,0,512,1024,252,0,216,430);return;}
+if(card&&paintAssets.heroes){const cut=type.startsWith('owl')?[40,440]:type.startsWith('witch')?[512,420]:[980,556];const w=cut[1]*430/1024;ctx.drawImage(paintAssets.heroes,cut[0],0,cut[1],1024,360-w/2,0,w,430);return;}
 if(type==='witchFly'){backdrop(ctx,3);return}
 if(!card)backdrop(ctx,type.startsWith('witch')||type==='owlClock'?0:type==='dragonSleep'||type==='dragonGuard'?2:1);
 if(type==='witchBrew'){
